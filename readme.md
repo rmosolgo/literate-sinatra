@@ -26,6 +26,10 @@ to deploy:
   $ git push heroku master
 ```
 
+# App setup
+
+## Gems, config
+
 ```Ruby
 	require 'rubygems'
 	require 'bundler/setup'
@@ -34,7 +38,18 @@ to deploy:
 	require 'thin' # HTTP server
 	require 'haml' # for quick views
 	require 'barista' # for using :coffescript in Haml
-	
+```
+
+Uncomment these lines to install newrelic standards on Heroku:
+
+```Ruby	
+	# configure :production do
+	# 	# heroku addons:add newrelic:standard
+	# 	# paste new relic's code into config/newrelic.yml
+	# 	require 'newrelic_rpm'
+	# end
+
+
 	# # for postgres:
 	# require 'pg'
 	# require 'data_mapper'
@@ -54,8 +69,17 @@ to deploy:
 	# YourModel.ensure_index(:field_name)
 
 ```
+# App Setup
 
-# Helpers
+## Models
+
+Declare your models here.
+```Ruby 
+	# class Model
+	# end
+```
+
+## Helpers
 ```Ruby
 	helpers do
 ```
