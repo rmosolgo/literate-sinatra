@@ -19,6 +19,8 @@ to deploy:
 ```  
   $ # must be a literal tab!
   $ cat readme.md | grep "^	" > app.rb 
+  $ # on windows, I can't get a literal tab in the console <3<3
+  $ # so i find-replace (\n)[^\t\n].*$ -> empty string 
   $ bundle install
   $ heroku create
   $ git push heroku master
@@ -54,23 +56,42 @@ to deploy:
 ```
 
 # Helpers
-
 ```Ruby
-	# # Uncomment and set ENV HTTP_USERNAME and HTTP_PASSWORD to enable password protection with "protected!"
-	# def protected!
-	# 	unless authorized?
-	# 		p "Unauthorized request."
-	# 		response['WWW-Authenticate'] = %(Basic)
-	# 		throw(:halt, [401, "Not authorized\n"])
-	# 	end
-	# end
-	# AUTH_PAIR = [ENV['HTTP_USERNAME'], ENV['HTTP_PASSWORD']]
-	# def authorized?
-	# 	@auth ||=  Rack::Auth::Basic::Request.new(request.env)
-	# 	@auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == AUTH_PAIR
-	# end
+	helpers do
 ```
 
+
+Syntactic sugar for data:
+```Ruby
+        def returns_json
+            content_type :json
+        end
+
+        def returns_csv(filename='data')
+            content_type 'application/csv'
+            attachment "#{filename}.csv"
+        end
+```
+
+Uncomment and set ENV HTTP_USERNAME and HTTP_PASSWORD to enable password protection with "protected!"
+```Ruby 
+		# def protected!
+		# 	unless authorized?
+		# 		p "Unauthorized request."
+		# 		response['WWW-Authenticate'] = %(Basic)
+		# 		throw(:halt, [401, "Not authorized\n"])
+		# 	end
+		# end
+		# AUTH_PAIR = [ENV['HTTP_USERNAME'] || 'username', ENV['HTTP_PASSWORD'] || 'password']
+		# def authorized?
+		# 	@auth ||=  Rack::Auth::Basic::Request.new(request.env)
+		# 	@auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == AUTH_PAIR
+		# end
+```
+end helpers
+```Ruby
+	end
+```
 # Routes 
 ```Ruby
 	get "/" do
