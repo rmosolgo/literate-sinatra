@@ -27,13 +27,15 @@ to deploy:
 ```
 
 # App setup
-
+extra quotes for code highlighting in Sublime ```
 ## Gems, config
 
 ```Ruby
 	require 'rubygems'
 	require 'bundler/setup'
 	require 'sinatra'
+	require 'json' # you'll thank me later
+	require 'csv'  # ditto
 
 	require 'thin' # HTTP server
 	require 'haml' # for quick views
@@ -87,14 +89,33 @@ Declare your models here.
 
 Syntactic sugar for data:
 ```Ruby
-        def returns_json
-            content_type :json
-        end
+		def returns_json(serializable_object=nil)
+```
+for example, 
+`returns_json(@country)` 
+sends @country.to_json
 
-        def returns_csv(filename='data')
-            content_type 'application/csv'
-            attachment "#{filename}.csv"
-        end
+```Ruby
+		    content_type :json
+		    response = ""
+		    if serializable_object
+		    	if serializable_object.respond_to? :to_json
+		    		response = serializable_object.to_json
+		    	else
+		    		response = JSON.dump(serializable_object)
+		    	end
+		    end
+		    response
+		end
+```
+
+Oops, this one doesn't work that way.
+
+```Ruby
+		def returns_csv(filename='data')
+		    content_type 'application/csv'
+		    attachment "#{filename}.csv"
+		end
 ```
 
 Uncomment and set ENV HTTP_USERNAME and HTTP_PASSWORD to enable password protection with "protected!"
