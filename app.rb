@@ -1,62 +1,21 @@
-
-# Boilerplate Sinatra app in Literate Ruby
-
-## About literate_ruby.rb
-keep your code:
-
-
-  - in "readme.md"
-  - tab-indented (not four spaces, sorry)
-  - use ```Ruby ... ``` for pretty printing on Github
-
-
-to run in development: 
-```
-  $ rake run
-```
-to commit: (requires `git remote origin` )
-
-```
-  $ rake github:push["some commit message"]
-```
-to deploy: (requires `git remote heroku`)
- 
-```  
-  $ rake heroku:deploy["some commit message"]
-```
-
-# App setup
-extra quotes for code highlighting in Sublime ```
-## Gems, config
-
-```Ruby
 	require 'rubygems'
 	require 'bundler/setup'
 	require 'sinatra'
 	require 'json' # you'll thank me later
 	require 'csv'  # ditto
-
 	require 'thin' # HTTP server
 	require 'haml' # for quick views
 	require 'barista' # for using :coffescript in Haml
-```
-
-Uncomment these lines to install New Relic on Heroku:
-
-```Ruby	
 	# configure :production do
 	# 	# heroku addons:add newrelic:standard
 	# 	# paste new relic's code into config/newrelic.yml
 	# 	require 'newrelic_rpm'
 	# end
-
-
 	# # for postgres:
 	# require 'pg'
 	# require 'data_mapper'
 	# require 'dm-postgres-adapter'
 	# DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://postgres:postgres@localhost/postgres')
-
 	# for MongoDB
 	require 'mongo'
 	require 'mongo_mapper'
@@ -68,33 +27,10 @@ Uncomment these lines to install New Relic on Heroku:
 	MongoMapper.connection = Mongo::Connection.from_uri mongo_url
 	MongoMapper.database = URI.parse(mongo_url).path.gsub(/^\//, '') #Extracts 'dbname' from the uri
 	# YourModel.ensure_index(:field_name)
-
-```
-# App Setup
-
-## Models
-
-Declare your models here.
-```Ruby 
 	# class Model
 	# end
-```
-
-## Helpers
-```Ruby
 	helpers do
-```
-
-
-Syntactic sugar for data:
-```Ruby
 		def returns_json(serializable_object=nil)
-```
-for example, 
-`returns_json(@country)` 
-sends @country.to_json
-
-```Ruby
 		    content_type :json
 		    response = ""
 		    if serializable_object
@@ -106,19 +42,10 @@ sends @country.to_json
 		    end
 		    response
 		end
-```
-
-Oops, this one doesn't work that way.
-
-```Ruby
 		def returns_csv(filename='data')
 		    content_type 'application/csv'
 		    attachment "#{filename}.csv"
 		end
-```
-
-Uncomment and set ENV HTTP_USERNAME and HTTP_PASSWORD to enable password protection with "protected!"
-```Ruby 
 		# def protected!
 		# 	unless authorized?
 		# 		p "Unauthorized request."
@@ -131,17 +58,7 @@ Uncomment and set ENV HTTP_USERNAME and HTTP_PASSWORD to enable password protect
 		# 	@auth ||=  Rack::Auth::Basic::Request.new(request.env)
 		# 	@auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == AUTH_PAIR
 		# end
-```
-end helpers
-```Ruby
 	end
-```
-# Routes 
-```Ruby
 	get "/" do
 		"Home"
 	end
-```
-
-
-
