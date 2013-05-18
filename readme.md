@@ -49,7 +49,10 @@ Uncomment these lines to install New Relic on Heroku:
 	# 	# paste new relic's code into config/newrelic.yml
 	# 	require 'newrelic_rpm'
 	# end
+```
 
+Choose an ORM:
+```Ruby
 
 	# # for postgres:
 	# require 'pg'
