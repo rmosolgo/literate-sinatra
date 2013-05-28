@@ -51,7 +51,17 @@ Uncomment these lines to install New Relic on Heroku:
 	# end
 ```
 
-Choose an ORM:
+Uncomment these lines to create `CACHES` with [Memcached](http://memcached.org/)/[Memcachier](https://devcenter.heroku.com/articles/memcachier)/[Dalli](https://github.com/mperham/dalli):
+(requires Memcached running on default local port)
+
+```Ruby
+	# require 'dalli'
+	# require 'memcachier'
+	# CACHES = Dalli::Client.new
+```	
+__Choose an ORM:__
+
+Postgres/DataMapper:
 ```Ruby
 
 	# # for postgres:
@@ -59,11 +69,16 @@ Choose an ORM:
 	# require 'data_mapper'
 	# require 'dm-postgres-adapter'
 	# DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://postgres:postgres@localhost/postgres')
+```
+
+MongoDB/MongoMapper:
+
+```Ruby
 
 	# for MongoDB
 	require 'mongo'
 	require 'mongo_mapper'
-	# require 'bson_ext'
+	# require 'bson_ext' # you're gonna want this but it can be a hassle to gem install it
 	require 'uri'
 	include Mongo
 	database_name = "your_db_name"
