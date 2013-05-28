@@ -41,6 +41,8 @@ extra quotes for code highlighting in Sublime ```
 	require 'barista' # for using :coffescript in Haml
 ```
 
+### Monitoring w/ New Relic
+
 Uncomment these lines to install New Relic on Heroku:
 
 ```Ruby	
@@ -51,6 +53,8 @@ Uncomment these lines to install New Relic on Heroku:
 	# end
 ```
 
+### Caching
+
 Uncomment these lines to create `CACHES` with [Memcached](http://memcached.org/)/[Memcachier](https://devcenter.heroku.com/articles/memcachier)/[Dalli](https://github.com/mperham/dalli):
 (requires Memcached running on default local port)
 
@@ -59,12 +63,11 @@ Uncomment these lines to create `CACHES` with [Memcached](http://memcached.org/)
 	# require 'memcachier'
 	# CACHES = Dalli::Client.new
 ```	
-__Choose an ORM:__
+### Choose an ORM:
 
 Postgres/DataMapper:
 ```Ruby
 
-	# # for postgres:
 	# require 'pg'
 	# require 'data_mapper'
 	# require 'dm-postgres-adapter'
@@ -75,7 +78,6 @@ MongoDB/MongoMapper:
 
 ```Ruby
 
-	# for MongoDB
 	require 'mongo'
 	require 'mongo_mapper'
 	# require 'bson_ext' # you're gonna want this but it can be a hassle to gem install it
@@ -104,7 +106,10 @@ Declare your models here.
 ```
 
 
-Syntactic sugar for data:
+### Syntactic sugar for data:
+
+JSON:
+
 ```Ruby
 		def returns_json(serializable_object=nil)
 ```
@@ -126,7 +131,10 @@ sends @country.to_json
 		end
 ```
 
+CSV:
+
 Oops, this one doesn't work that way.
+It just sets the content-type and attachment headers.
 
 ```Ruby
 		def returns_csv(filename='data')
@@ -135,20 +143,22 @@ Oops, this one doesn't work that way.
 		end
 ```
 
-Uncomment and set ENV HTTP_USERNAME and HTTP_PASSWORD to enable password protection with "protected!"
+### HTTP Basic Authorization
+
+Set ENV HTTP_USERNAME and HTTP_PASSWORD to use password protection with "protected!"
 ```Ruby 
-		# def protected!
-		# 	unless authorized?
-		# 		p "Unauthorized request."
-		# 		response['WWW-Authenticate'] = %(Basic)
-		# 		throw(:halt, [401, "Not authorized\n"])
-		# 	end
-		# end
-		# AUTH_PAIR = [ENV['HTTP_USERNAME'] || 'username', ENV['HTTP_PASSWORD'] || 'password']
-		# def authorized?
-		# 	@auth ||=  Rack::Auth::Basic::Request.new(request.env)
-		# 	@auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == AUTH_PAIR
-		# end
+		def protected!
+			unless authorized?
+				p "Unauthorized request."
+				response['WWW-Authenticate'] = %(Basic)
+				throw(:halt, [401, "Not authorized\n"])
+			end
+		end
+		AUTH_PAIR = [ENV['HTTP_USERNAME'] || 'username', ENV['HTTP_PASSWORD'] || 'password']
+		def authorized?
+			@auth ||=  Rack::Auth::Basic::Request.new(request.env)
+			@auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == AUTH_PAIR
+		end
 ```
 end helpers
 ```Ruby
