@@ -33,9 +33,8 @@ extra quotes for code highlighting in Sublime ```
 	require 'rubygems'
 	require 'bundler/setup'
 	require 'sinatra'
-	require 'json' # you'll thank me later
-	require 'csv'  # ditto
-
+	require 'json' 
+	require 'csv'  
 	require 'thin' # HTTP server
 	require 'haml' # for quick views
 	require 'barista' # for using :coffescript in Haml
@@ -56,7 +55,8 @@ Uncomment these lines to install New Relic on Heroku:
 ### Caching
 
 Uncomment these lines to create `CACHES` with [Memcached](http://memcached.org/)/[Memcachier](https://devcenter.heroku.com/articles/memcachier)/[Dalli](https://github.com/mperham/dalli):
-(requires Memcached running on default local port)
+
+_(requires Memcached running on default local port)_
 
 ```Ruby
 	# require 'dalli'
@@ -160,7 +160,8 @@ Set ENV HTTP_USERNAME and HTTP_PASSWORD to use password protection with "protect
 			@auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == AUTH_PAIR
 		end
 ```
-end helpers
+end helpers:
+
 ```Ruby
 	end
 ```
